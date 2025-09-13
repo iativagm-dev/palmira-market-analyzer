@@ -1,0 +1,57 @@
+{
+  "name": "palmira-market-analyzer",
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/scrape",
+      "dest": "/api/scrape"
+    },
+    {
+      "src": "/api/businesses",
+      "dest": "/api/businesses"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production",
+    "SCRAPING_DANE_ENABLED": "true",
+    "SCRAPING_CAMARA_ENABLED": "true", 
+    "SCRAPING_ALCALDIA_ENABLED": "true"
+  },
+  "functions": {
+    "app/api/scrape/route.ts": {
+      "maxDuration": 30
+    },
+    "app/api/businesses/route.ts": {
+      "maxDuration": 10
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Access-Control-Allow-Methods", 
+          "value": "GET, POST, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization"
+        }
+      ]
+    }
+  ]
+}
